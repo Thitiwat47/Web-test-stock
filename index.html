@@ -8,10 +8,23 @@
     <h1>Stock Price</h1>
 
     <a>all stock</a>
-    <ul id="stock"></ul>
-    <script>
+    <ul id="stock">
 
-        const list_stock = document.getElementById("stock");
+
+    </ul>
+    <script>
+        fetch("http://localhost:3000/data")
+            .then(response => response.json())
+            .then(data => {
+                const list_stock = document.getElementById("stock");
+                data.forEach(stock => {
+                    const li = document.createElement("li");
+                    li.textContent = `${stock.name}: $${stock.price}`;
+                    list_stock.appendChild(li);
+                });
+            })
+            .catch(error => console.error("Error fetching stock data:", error));
+
     </script>
 
 
