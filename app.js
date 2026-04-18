@@ -35,7 +35,7 @@ app.get("/data", (req, res) => {
 
 app.post("/update", (req, res) => {
     const { name, price } = req.query;
-    connection.query("INSERT INTO stock (name, price) VALUES (?, ?) ON DUPLICATE KEY UPDATE price = ?", [name, price, price], (err, results) => {
+    connection.query("INSERT INTO stock (name, price) VALUES (?, ?)", [name, price], (err, results) => {
         if (err) {
             console.error("Error updating data in database:", err);
             res.status(500).json({ error: "Error updating data in database" });
