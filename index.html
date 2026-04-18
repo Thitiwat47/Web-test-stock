@@ -10,9 +10,34 @@
     <a>all stock</a>
     <ul id="stock">
 
-
     </ul>
+    <button onclick="addStock()">Add Stock</button>
     <script>
+        async function loadtable() {
+            const res = await fetch("/data");
+            const data = await res.json();
+            const stock = document.getElementById("stock");
+            data.forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = `${item.name} - ${item.price}`;
+                stock.appendChild(li);
+            });
+
+
+        }
+        loadtable();
+        async function addStock() {
+            const name = prompt("Enter stock name:");
+            const price = prompt("Enter stock price:");
+            await fetch("/data", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, price })
+            });
+            loadtable();
+        }
 
 
     </script>
