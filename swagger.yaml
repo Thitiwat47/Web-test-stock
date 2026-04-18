@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Website E-commerce API
+  version: 1.0.0
+  description: >-
+    RESTful API for a small e-commerce system demonstrating JWT authentication,
+    RBAC authorization, idempotent order and payment processing, validation,
+    caching, rate limiting, monitoring, and API versioning.
+
+servers:
+  - url: http://localhost:3000
+    description: Local development
+
+paths:
+  /data:
+    get:
+      summary: Retrieve all stock data
+      description: Retrieve a list of all stock items in the database.
+      responses:
+        '200':
+          description: A list of stock items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Apple Inc."
+                    price:
+                      type: number
+                      format: float
+                      example: 150.25
+    post:
+      summary: Add a new stock item
+      description: Add a new stock item to the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Microsoft Corporation"
+                price:
+                  type: number
+                  format: float
+                  example: 250.75
+      responses:
+        '201':
+          description: Stock item created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 2
+                  name:
+                    type: string
+                    example: "Microsoft Corporation"
+                  price:
+                    type: number
+                    format: float
+                    example: 250.75
+    put:
+      summary: Update an existing stock item
+      description: Update an existing stock item in the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 2
+                name:
+                  type: string
+                  example: "Microsoft Corporation"
+                price:
+                  type: number
+                  format: float
+                  example: 250.75
+      responses:
+        '200':
+          description: Stock item updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 2
+                  name:
+                    type: string
+                    example: "Microsoft Corporation"
+                  price:
+                    type: number
+                    format: float
+                    example: 250.75
+    delete:
+      summary: Delete an existing stock item
+      description: Delete an existing stock item from the database.
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the stock item to delete
+      responses:
+        '200':
+          description: Stock item deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Stock item deleted successfully"
+
