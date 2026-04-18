@@ -23,27 +23,35 @@ app.get("/", (req, res) => {
 });
 
 app.get("/data", (req, res) => {
-    connection.query("SELECT * FROM stock", (err, results) => {
-        if (err) {
-            console.error("Error fetching data from database:", err);
-            res.status(500).json({ error: "Error fetching data from database" });
-        } else {
-            res.json(results);
-        }
+    connection.query("SELECT * FROM stock", 
+        (err, results) => {
+            res.json(results)
+        
     });
 });
 
-app.post("/update", (req, res) => {
-    const { name, price } = req.query;
-    connection.query("INSERT INTO stock (name, price) VALUES (?, ?)", [name, price], (err, results) => {
-        if (err) {
-            console.error("Error updating data in database:", err);
-            res.status(500).json({ error: "Error updating data in database" });
-        } else {
-            res.json({ message: "Stock updated successfully" });
+app.get("/data/:id",(req,res)=>{
+    id = req.params.id
+    connection.query("SELECT * FROM stock WHERE id=?",
+        [id],
+        function(err,results){
+            if(results.length > 0){
+
+              res.json(results[0])
         }
-    });
-});
+            else{
+        
+                res.status(404).json({message:"data not found"})
+            }
+            }
+
+        
+
+     )
+
+  
+}
+)
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(3000, () => {
