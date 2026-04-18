@@ -61,6 +61,43 @@ app.get("/data/:id", (req, res) => {
 }
 )
 
+app.post("/data", (req, res) => {
+    const { name, price } = req.body
+    connection.query("INSERT INTO stock (name,price) VALUES (?,?)",
+        [name, price],
+        (err, results) => {
+            if (err) {
+                console.error("Error inserting data into database:", err);
+                res.status(500).json({ error: "Error inserting data into database" });
+            } else {
+                res.status(201).json({ id: results.insertId, name, price });
+            }
+        }
+    );
+});
+
+app.put("/data", (req, res) => {
+    const { id, name, price } = req.body
+    connection.query("UPDATE stock SET name=?, price=? WHERE id=?",
+        [name, price, id],
+        (err, results) => {
+            res.json(results
+
+            )
+
+        });
+});
+
+app.delete("/data", (req, res) => {
+    const { id } = req.body
+    connection.query("DELETE FROM stock WHERE id=?",
+        [id],
+        (err, results) => {
+            res.json(results)
+        }
+    )
+})
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(3000, () => {
     console.log("server is running on port 3000")
