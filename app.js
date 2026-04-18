@@ -89,7 +89,7 @@ app.put("/data", (req, res) => {
 });
 
 app.delete("/data", (req, res) => {
-    const { id } = req.body
+    const { id } = req.query
     connection.query("DELETE FROM stock WHERE id=?",
         [id],
         (err, results) => {

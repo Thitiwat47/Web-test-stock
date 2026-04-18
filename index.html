@@ -11,7 +11,10 @@
     <ul id="stock">
 
     </ul>
-    <button onclick="addStock()">Add Stock</button>
+    <form onsubmit="addStock(); return false;">
+        <button type="submit">Add Stock</button>
+    </form>
+
     <script>
         async function loadtable() {
             const res = await fetch("/data");
