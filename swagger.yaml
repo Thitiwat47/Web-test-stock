@@ -1,46 +1,51 @@
-openapi: 3.0.4
+openapi: 3.0.3
 info:
-  title: database API
-  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.9
+  title: Website E-commerce API
+  version: 1.0.0
+  description: >-
+    RESTful API for a small e-commerce system demonstrating JWT authentication,
+    RBAC authorization, idempotent order and payment processing, validation,
+    caching, rate limiting, monitoring, and API versioning.
 
 servers:
   - url: http://localhost:3000
-    description: Optional server description, e.g. Main (production) server
-  - url: http://staging-api.example.com
-    description: Optional server description, e.g. Internal staging server for testing
+    description: Local development
 
 paths:
   /data:
     get:
-      summary: Returns a list of stock data.
-      description: Optional extended description in CommonMark or HTML.
+      summary: Retrieve all stock data
+      description: Retrieve a list of all stock items in the database.
       responses:
-        "200": # status code
-          description: A JSON array of stock data
+        '200':
+          description: A list of stock items
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: string
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Apple Inc."
+                    price:
+                      type: number
+                      format: float
+                      example: 150.25
+  /update:
     post:
-      summary: Creates a new stock data entry.
-      description: Optional extended description in CommonMark or HTML.
+      summary: Update stock data
+      description: Update the price of a stock item.
       requestBody:
-        description: Stock data to add
         required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                id:
-                  type: integer
                 name:
                   type: string
-                price:
-                  type: number
-      responses:
-        "201": # status code
-          description: Stock data created successfully
