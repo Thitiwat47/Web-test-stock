@@ -24,3 +24,23 @@ paths:
                 type: array
                 items:
                   type: string
+    post:
+      summary: Creates a new stock data entry.
+      description: Optional extended description in CommonMark or HTML.
+      requestBody:
+        description: Stock data to add
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                price:
+                  type: number
+      responses:
+        "201": # status code
+          description: Stock data created successfully

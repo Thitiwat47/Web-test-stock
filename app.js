@@ -5,6 +5,11 @@ const mysql = require("mysql2")
 const swaggerUi = require("swagger-ui-express")
 const YAML = require("yaml")
 const fs = require("fs")
+const cors = require("cors")
+
+
+app.use(cors())
+app.use(express.json())
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -34,8 +39,8 @@ app.get("/data/:id",(req,res)=>{
     id = req.params.id
     connection.query("SELECT * FROM stock WHERE id=?",
         [id],
-        function(err,results){
-            if(results.length > 0){
+        function(rr,results){
+            if(reseults.length > 0){
 
               res.json(results[0])
         }
@@ -52,6 +57,20 @@ app.get("/data/:id",(req,res)=>{
   
 }
 )
+app.post("/data",(req,res)=>{
+    const {id,name, price} = req.body
+  connection.query("INSERT INTO stock (id , name, price) VALUES (?, ?, ?)", [id, name, price],  
+  (err, results) => {
+    if(err){
+        res.status(500).json({message:"error inserting data"})
+    }
+    else{
+        res.status(201).json({message:"data inserted successfully", id: results.insertId})
+    }
+
+  }
+  )
+})
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(3000, () => {
