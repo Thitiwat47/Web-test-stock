@@ -6,7 +6,7 @@ const swaggerUi = require("swagger-ui-express")
 const YAML = require("yaml")
 const fs = require("fs")
 const cors = require("cors")
-
+app.use(express.static(__dirname))
 
 app.use(cors())
 app.use(express.json())
@@ -89,7 +89,7 @@ app.put("/data", (req, res) => {
 });
 
 app.delete("/data", (req, res) => {
-    const { id } = req.body
+    const { id } = req.query
     connection.query("DELETE FROM stock WHERE id=?",
         [id],
         (err, results) => {

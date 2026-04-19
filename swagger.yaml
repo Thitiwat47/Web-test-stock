@@ -130,4 +130,15 @@ paths:
                   message:
                     type: string
                     example: "Stock item deleted successfully"
+     
+        '404':
+          description: Stock item not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Stock item not found"
 

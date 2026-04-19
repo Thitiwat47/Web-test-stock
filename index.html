@@ -1,18 +1,51 @@
 <!DOCTYPE html>
 
+
+
 <head>
     <title>Stock Price</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1>Stock Price</h1>
 
     <a>all stock</a>
-    <ul id="stock">
+    <div>
+        <ul id="stock"></ul>
+        <li></li>
 
+    </div>
+    <form onsubmit="addStock(); return false;">
+        <button type="submit">Add Stock</button>
+    </form>
 
-    </ul>
     <script>
+        async function loadtable() {
+            const res = await fetch("/data");
+            const data = await res.json();
+            const stock = document.getElementById("stock");
+            data.forEach((item) => {
+                const li = document.createElement("li");
+                li.textContent = `${item.name} - ${item.price}`;
+                stock.appendChild(li);
+            });
+
+
+        }
+        loadtable();
+        async function addStock() {
+            const name = prompt("Enter stock name:");
+            const price = prompt("Enter stock price:");
+            await fetch("/data", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, price })
+            });
+            loadtable();
+        }
 
 
     </script>
