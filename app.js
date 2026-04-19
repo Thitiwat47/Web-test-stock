@@ -6,7 +6,7 @@ const swaggerUi = require("swagger-ui-express")
 const YAML = require("yaml")
 const fs = require("fs")
 const cors = require("cors")
-
+app.use(express.static(__dirname))
 
 app.use(cors())
 app.use(express.json())
